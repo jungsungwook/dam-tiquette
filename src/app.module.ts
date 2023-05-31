@@ -1,11 +1,11 @@
 import { CacheModule, MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as dotenv from 'dotenv';
-import * as path from 'path';
 import { AuthTokenMiddleware } from './auth/authToken.middleware';
+import { AuthModule } from './auth/auth.module';
+import { SmokingAreaModule } from './pages/smoking-area/smoking-area.module';
+import { UsersModule } from './pages/users/users.module';
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
 @Module({
   imports: [
     CacheModule.register({
@@ -28,6 +28,9 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    UsersModule,
+    SmokingAreaModule,
+    AuthModule,
   ],
 })
 export class AppModule {
