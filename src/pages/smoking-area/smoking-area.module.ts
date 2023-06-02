@@ -13,6 +13,7 @@ import { SmokingAreaService } from "./smoking-area.service";
         ]),
     ],
     controllers: [SmokingAreaController],
-    providers: [SmokingAreaService]
+    providers: [SmokingAreaService],
+    exports: [SmokingAreaService, TypeOrmModule],
 })
 export class SmokingAreaModule { }
