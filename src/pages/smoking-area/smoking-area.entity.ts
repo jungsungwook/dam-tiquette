@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class SmokingArea extends BaseEntity {
@@ -30,7 +30,9 @@ export class SmokingArea extends BaseEntity {
     longitude: number;
 
     @ApiProperty({ description: '흡연구역 주소', example: '경기도 성남시 분당구 판교역로 235' })
-    @Column()
+    @Column({
+        nullable: true
+    })
     address: string;
 
     @ApiProperty({ description: '흡연구역 설명', example: '흡연구역 설명입니다.' })
@@ -45,7 +47,7 @@ export class SmokingArea extends BaseEntity {
     })
     image: string;
 
-    @ApiProperty({ description: '흡연구역 태그', example: '[태그1, 태그2, 태그3]'})
+    @ApiProperty({ description: '흡연구역 태그', example: '[태그1, 태그2, 태그3]', isArray: true})
     @Column({ type: 'simple-array', nullable: true })
     tags: string[];
 
@@ -70,6 +72,14 @@ export class SmokingArea extends BaseEntity {
     @ApiProperty({ description: '삭제여부', example: 'false' })
     @Column({ default: false })
     isDeleted: boolean;
+
+    @ApiProperty({ description: '삭제 이유', example: '사용자의 요청으로 인해 삭제되었습니다.' })
+    @Column({ nullable: true })
+    deleteReason: string;
+
+    @ApiProperty({ description: '관리자 승인 여부', example: 'false' })
+    @Column({ default: false })
+    isApproved: boolean;
 }
 
 @Entity()
@@ -91,15 +101,15 @@ export class SmokingAreaRate extends BaseEntity {
     rate: number;
 
     @ApiProperty({ description: '등록일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date;
 
     @ApiProperty({ description: '수정일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     updatedAt: Date;
 
     @ApiProperty({ description: '삭제일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', nullable: true })
+    @DeleteDateColumn({ type: 'timestamp', nullable: true })
     deletedAt: Date;
 
     @ApiProperty({ description: '삭제여부', example: 'false' })
@@ -126,18 +136,22 @@ export class SmokingAreaComment extends BaseEntity {
     content: string;
 
     @ApiProperty({ description: '등록일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date;
 
     @ApiProperty({ description: '수정일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
+    @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
     updatedAt: Date;
 
     @ApiProperty({ description: '삭제일자', example: '2021-01-01 00:00:00' })
-    @Column({ type: 'timestamp', nullable: true })
+    @DeleteDateColumn({ type: 'timestamp', nullable: true })
     deletedAt: Date;
 
     @ApiProperty({ description: '삭제여부', example: 'false' })
     @Column({ default: false })
     isDeleted: boolean;
+
+    @ApiProperty({ description: '삭제 이유', example: '사용자의 요청으로 인해 삭제되었습니다.' })
+    @Column({ nullable: true })
+    deleteReason: string;
 }
