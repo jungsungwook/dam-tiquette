@@ -5,6 +5,7 @@ import { AuthTokenMiddleware } from './auth/authToken.middleware';
 import { AuthModule } from './auth/auth.module';
 import { SmokingAreaModule } from './pages/smoking-area/smoking-area.module';
 import { UsersModule } from './pages/users/users.module';
+import { AdminModule } from './pages/admin/admin.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UsersModule } from './pages/users/users.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    AdminModule,
     UsersModule,
     SmokingAreaModule,
     AuthModule,
